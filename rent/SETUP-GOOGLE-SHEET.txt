@@ -1,0 +1,91 @@
+RENT ROLL - SHARED DATA WITH A GOOGLE SHEET
+===========================================
+Your Google account owns the Sheet. The landlord and anyone else only need
+the app link and a passcode. They do NOT need a Google account.
+
+PART 1 - THE GOOGLE SHEET (about 10 minutes, on a laptop)
+  1. Go to https://sheets.google.com and create a Blank spreadsheet.
+     Name it "Rent Roll Data".
+  2. Menu: Extensions > Apps Script. A code editor opens.
+  3. Delete everything in the editor. Open google-sheet/Code.gs from this
+     folder in any text editor, copy ALL of it, paste it into the editor.
+  4. Near the top, change CHANGE-THIS-PASSCODE to your own passcode:
+       const PASSCODE = 'CHANGE-THIS-PASSCODE';
+     Use 10 or more letters and digits. Example: 'Kumar-Rent-4821'. Do not
+     use spaces. Remember it: you and the landlord type it on each phone.
+  5. Click the Save icon (disk). Name the project "Rent Roll".
+  6. Click Deploy (top right) > New deployment.
+     - Click the gear next to "Select type" and choose Web app.
+     - Description: Rent Roll
+     - Execute as: Me (your email)
+     - Who has access: Anyone
+     - Click Deploy.
+  7. Click "Authorize access", choose your Google account. If you see
+     "Google hasn't verified this app", click Advanced > "Go to Rent Roll
+     (unsafe)" > Allow. This is your own script, so it is safe.
+  8. Copy the "Web app" URL. It ends with /exec. Keep it.
+
+PART 2 - PUT THE URL IN THE APP (GitHub, 3 minutes)
+  1. Open your GitHub repository (my-apps) > open the rent folder.
+  2. Upload this release's files over the old ones (drag the contents of
+     the extracted rent folder into the repository's rent folder). Also
+     upload the google-sheet folder if you want to keep a copy there.
+  3. Open rent/sheets-config.js on GitHub, click the pencil (edit), and
+     paste your URL between the quotes:
+        url: "https://script.google.com/macros/s/XXXXXXXX/exec"
+     Click "Commit changes".
+  4. Wait 1 to 2 minutes for GitHub Pages to update.
+  IMPORTANT: Never put the passcode in any file on GitHub. The repository
+  is public. The passcode is only typed into the phone.
+
+PART 3 - OPEN IT ON THE PHONES
+  1. On your iPhone, open in Safari:
+        https://naveenragav2005.github.io/my-apps/rent/
+  2. A box asks for the passcode. Type it and tap Continue.
+  3. You will see the landlord's 10 properties and 23 units already loaded
+     with their rents. The pill at the top should say "Saved and shared".
+  4. Share > Add to Home Screen > Add. Open it from the icon.
+  5. Send the landlord the same link and the passcode. He opens it in
+     Safari, types the passcode, and adds it to his Home Screen too.
+     Anything either of you enters appears on the other phone within about
+     15 seconds (open the app or pull it to the front to refresh sooner).
+
+PART 4 - FIRST THINGS TO DO IN THE APP
+  1. Check each property's rent on the Properties page. The starter data
+     assumes rent is due on the 5th and is tracked from the current month.
+  2. For each unit open "Edit dates and details" and enter the real tenant
+     name, phone number, move-in date, advance (optional) and due day.
+  3. If someone still owes rent from before you started using the app:
+     open the unit > "Add earlier pending" and enter the amount and month.
+  4. Each month: tap Mark paid, or Record payment for part payments,
+     multi-month payments, or payments split across months.
+  5. In the Google Sheet you will see four readable tabs, refreshed a few
+     seconds after changes: This month, Pending, Payments, Tenants.
+     The "Data" tab is the app's storage. Never edit it by hand.
+
+SECURITY
+  - Share the Google Sheet with nobody, or only as Viewer. If someone can
+    edit the Data tab they can damage the data.
+  - Anyone who has the passcode can read and change all rent data. Treat it
+    like a bank PIN. To change it: edit PASSCODE in Apps Script, then
+    Deploy > Manage deployments > pencil > Version: New version > Deploy.
+    Then tap Settings > Change passcode on each phone.
+  - Passcode protection is simple. Do not store tenant ID numbers in the app.
+
+BACKUPS
+  - Settings > Back up or restore, once a month. Save the file to iCloud.
+  - Sheet: File > Version history shows earlier states of the Data tab.
+
+UPDATING THE SCRIPT LATER
+  If a new Code.gs is ever provided: paste it over the old one, keep your
+  passcode, then Deploy > Manage deployments > pencil > New version > Deploy.
+  The URL stays the same.
+
+KNOWN LIMITS
+  - If two people edit the same month's payments at exactly the same moment,
+    the later save wins. Rare for a single landlord with one helper.
+  - If a phone is offline, its changes are kept and uploaded when it is
+    online again. A property or tenant change made offline replaces the
+    shared property list, so re-check recent changes made by others.
+  - Google allows a generous but limited number of script runs per day.
+    The app checks for changes every 15 seconds only while it is open.
